@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+				layout:decorate="~{layout}"
+				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	.low{
+		color:red;
+	}
+</style>
+</head>
+<body>
+<!-- #:message_propeties읽어오기 $:속성값 읽어오기 -->
+<th:block layout:fragment="main">
+<div th:text="#{title}">title</div>
+전체건수 : [[${#lists.size(empList)}]] <br>
+전체건수 :	 <span th:text="${#lists.size(empList)}"></span>
+<table border="1">
+ <tr>
+ 	<th>순번</th>
+ 	<th>employee_id</th>
+ 	<th>first_name</th>
+ 	<th>입사일자</th>
+ 	<th>매니저</th>
+ 	<th>급여</th>
+ </tr> 
+ <tr th:each="emp : ${empList}">
+ 	<td th:text="${empStat.count}">1</td>
+ 	<td th:text="${emp.employeeId}"></td>
+ 	<td> [[${emp.firstName}]] <!--/*/[(${emp.firstName})]/*/--> </td>
+ 	<td th:text="|${emp.firstName} - ${emp.lastName}|"></td>
+ 	<td th:text="${#dates.format(emp.hireDate,'yyyy-MM')}"></td>
+ 	<td th:text="${emp.managerId==null?'King':emp.managerId }"></td>
+ 	<td th:text="${emp.salary}" class="sal" th:classappend="${emp.salary<6000? 'low':_}" th:sytle="${emp.salary<10000? 'color:green':_}"></td>
+ 	
+ 	<td><button th:if="${emp.salary<6000}">수정</button></td>
+ </tr>
+</table>
+</th:block>
+</body>
+</html>
